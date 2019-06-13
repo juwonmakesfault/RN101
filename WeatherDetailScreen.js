@@ -19,10 +19,9 @@ export default class WeatherDetailScreen extends React.Component {
 
   componentDidMount() {
     const { navigation } = this.props;
-    // const city = navigation.getParam('city', null);
-    const city = 'Daejeon';
+    const city = navigation.getParam('city', null);
 
-    fetch(`http://demo6468405.mockable.io/weather-crawlers/current-weathers/by-city-name/${city}`)
+    fetch(`http://192.168.1.114:8080/weather-crawler/current-weathers/by-city-name/${city}`)
       .then(response => response.json())
       .then(info => {
         this.setState({
@@ -42,6 +41,7 @@ export default class WeatherDetailScreen extends React.Component {
     }
 
     let celsius = this.state.main.temp - 273.15;
+
 
     return (
       <View style={styles.container}>
