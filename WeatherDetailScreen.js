@@ -1,11 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { Constants } from 'expo';
 
 export default class WeatherDetailScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: `Weather Info: ${navigation.getParam('city', 'Unknown')}`,
+      title: `${navigation.getParam('city', 'Unknown')}`,
+      headerTitleStyle: {
+          fontSize : 30,
+          fontFamily: 'Roboto'
+      }
     };
   };
 
@@ -41,6 +46,40 @@ export default class WeatherDetailScreen extends React.Component {
     }
 
     let description = this.state.weather[0].description;
+     var status = description.split(" ");
+     if (status.length == 1) {status = status[0];}
+     else if (status.length > 1 ){
+         status = status[status.length-1];
+     }
+     console.log(status, status.length);
+
+     switch (status) {
+            case "sky":
+                description = "md-sunny";
+                mdcolor ="yellow";
+                break;
+            case "rain"://same
+            case "drizzle":
+                description = "md-rainy";
+                mdcolor = "lightblue";
+                break;
+            case "snow"://same
+            case "sleet":
+                description = "md-snow";
+                mdcolor = "white"
+                break;
+            case "haze":
+                mdcolor = "lightgray";
+                description = "md-cloudy";
+                break;
+            case "clouds":
+            case "cloud":
+                mdcolor = "white";
+                description = "md-cloud";
+                break;
+            default:
+                break;
+        }
 
     let celsius_current = this.state.main.temp - 273.15;
     let celsius_min = this.state.main.temp_min - 273.15;
@@ -52,16 +91,23 @@ export default class WeatherDetailScreen extends React.Component {
     let wind_deg = this.state.wind.deg;
 
     return (
-      <View style={styles.container}>
-        <Text>하늘: {description}</Text>
-        <Text>현재온도: {celsius_current.toFixed(1)}</Text>
-        <Text>최고온도: {celsius_max.toFixed(1)}</Text>
-        <Text>최저온도: {celsius_min.toFixed(1)}</Text>
-        <Text>기압: {pressure.toFixed(1)}</Text>
-        <Text>습도: {humidity.toFixed(1)}</Text>
-        <Text>풍속: {wind_speed.toFixed(1)}</Text>
-        <Text>풍향: {wind_deg.toFixed(1)}</Text>
-      </View>
+      <ImageBackground source={require('./assets/weather.jpg')} style={{width: '100%', height: '100%', }}>
+        <View style={styles.container}>
+          <Text style={styles.celsius}><Ionicons name={description} size={50} color={mdcolor} /> {celsius_current.toFixed(1)}°C </Text>
+          <Text style={styles.text}>{celsius_min.toFixed(1)}/{celsius_max.toFixed(1)}</Text>
+          <Text style={styles.texts}>기압: {pressure.toFixed(1)}</Text>
+          <Text style={styles.texts}>습도: {humidity.toFixed(1)}</Text>
+          <Text style={styles.texts}>풍속: {wind_speed.toFixed(1)}</Text>
+          <Text style={styles.texts}>풍향: {wind_deg.toFixed(1)}</Text>
+
+          <View style={{alignItems: 'flex-end'}}  >
+            <Image
+            style={{width: 263, height: 252, marginTop: 20,}}
+            source={require('./assets/janna.png')}
+            />
+          </View>
+        </View>
+      </ImageBackground>
     );
   }
 }
@@ -69,7 +115,23 @@ export default class WeatherDetailScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     marginTop: Constants.statusBarHeight,
+  },
+  text: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 20,
+    margin: 20,
+  },
+  texts: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 20,
+  },
+  celsius: {
+    textAlign: 'center',
+    fontSize: 50,
+    margin: 20,
+    color: 'white',
   },
 });
