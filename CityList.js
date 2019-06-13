@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import { Constants } from 'expo';
 
 export default class CityList extends React.Component {
@@ -38,13 +38,16 @@ export default class CityList extends React.Component {
   renderItem(city) {
     return (
       <TouchableOpacity style={styles.item} onPress={() => this.onPressCity(city)}>
+        <ImageBackground source={require('./assets/weather.jpg')} style={{width: '100%', height: '100%', }}>
         <Text style={styles.text}>{city}</Text>
+        </ImageBackground>
       </TouchableOpacity>
     );
   }
 
   render() {
     return (
+
       <FlatList style={styles.container}
                 renderItem={({ item }) => this.renderItem(item)}
                 keyExtractor={item => item}
@@ -57,7 +60,6 @@ export default class CityList extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     marginTop: Constants.statusBarHeight,
   },
 
@@ -67,10 +69,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
 
     borderWidth: 1,
-    borderColor: 'orange',
+    borderColor: 'navy',
   },
   text: {
-    fontSize: 20,
+    fontSize: 30,
+    color: "white",
     textAlign: 'center',
   }
 });
