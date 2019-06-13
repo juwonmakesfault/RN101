@@ -40,12 +40,28 @@ export default class WeatherDetailScreen extends React.Component {
       )
     }
 
-    let celsius = this.state.main.temp - 273.15;
+    let description = this.state.weather.description;
+
+    let celsius_current = this.state.main.temp - 273.15;
+    let celsius_min = this.state.main.temp_min - 273.15;
+    let celsius_max = this.state.main.temp_max - 273.15;
+    let pressure = this.state.main.pressure;
+    let humidity = this.state.main.humidity;
+
+    let wind_speed = this.state.wind.speed;
+    let wind_deg = this.state.wind.deg;
 
 
     return (
       <View style={styles.container}>
-        <Text>온도: {celsius.toFixed(1)}</Text>
+        <Text>하늘: {description}</Text>
+        <Text>현재온도: {celsius_current.toFixed(1)}</Text>
+        <Text>최고온도: {celsius_max.toFixed(1)}</Text>
+        <Text>최저온도: {celsius_min.toFixed(1)}</Text>
+        <Text>기압: {pressure.toFixed(1)}</Text>
+        <Text>습도: {humidity.toFixed(1)}</Text>
+        <Text>풍속: {wind_speed.toFixed(1)}</Text>
+        <Text>풍향: {wind_deg.toFixed(1)}</Text>
       </View>
     );
   }
