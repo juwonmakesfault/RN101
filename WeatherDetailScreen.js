@@ -40,7 +40,7 @@ export default class WeatherDetailScreen extends React.Component {
       )
     }
 
-    let description = this.state.weather.description;
+    let description = this.state.weather[0].description;
 
     let celsius_current = this.state.main.temp - 273.15;
     let celsius_min = this.state.main.temp_min - 273.15;
@@ -50,7 +50,6 @@ export default class WeatherDetailScreen extends React.Component {
 
     let wind_speed = this.state.wind.speed;
     let wind_deg = this.state.wind.deg;
-
 
     return (
       <View style={styles.container}>
